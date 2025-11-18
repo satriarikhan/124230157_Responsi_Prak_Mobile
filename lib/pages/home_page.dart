@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsi_apk/models/product_model.dart';
+import 'package:responsi_apk/pages/detail.page.dart';
 import 'package:responsi_apk/providers/cart_provider.dart';
 import 'package:responsi_apk/providers/product_provider.dart';
 import 'package:responsi_apk/widgets/bottom_navbar.dart';
@@ -125,8 +126,8 @@ class _HomePageState extends State<HomePage> {
                       onFavToggle: () => cartProv.toggleCart(a.malId),
                       onTap: () => Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (_) => DetailPage(anime: a)),
-                      ),
+                        MaterialPageRoute(builder: (_) => DetailPage(product: a)),
+                      ), onCartToggle: null, onFCartToggle: () {  },
                     );
                   },
                 );

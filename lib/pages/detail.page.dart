@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/anime_model.dart';
-import '../providers/favorite_provider.dart';
+import 'package:responsi_apk/models/product_model.dart';
+import 'package:responsi_apk/providers/cart_provider.dart';
 
 class DetailPage extends StatefulWidget {
-  final Anime anime;
-  const DetailPage({super.key, required this.anime});
+  final Product product;
+  const DetailPage({super.key, required this.product});
   @override
   State<DetailPage> createState() => _DetailPageState();
 }
 
 class _DetailPageState extends State<DetailPage> {
-  bool _isFav = false;
+  bool _isCart = false;
 
   @override
   void initState() {
     super.initState();
-    final fav = Provider.of<FavoriteProvider>(context, listen: false);
-    _isFav = fav.isFavorite(widget.anime.malId);
+    final fav = Provider.of<CartProvider>(context, listen: false);
+    _isCart = fav.isCart(widget.product.id);
   }
 
   @override
   Widget build(BuildContext context) {
-    final favProv = Provider.of<FavoriteProvider>(context, listen: false);
+    final favProv = Provider.of<CartProvider>(context, listen: false);
 
     return Scaffold(
-      appBar: AppBar(title: Text(widget.anime.title)),
+      appBar: AppBar(title: Text(widget.product.title)),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -34,7 +34,7 @@ class _DetailPageState extends State<DetailPage> {
               clipBehavior: Clip.hardEdge,
               decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
               child: Image.network(
-                widget.anime.imageUrl,
+                widget.product.image,
                 fit: BoxFit.cover,
                 width: double.infinity,
                 errorBuilder: (_, __, ___) => Container(color: Colors.grey),
@@ -47,7 +47,7 @@ class _DetailPageState extends State<DetailPage> {
                 children: [
                   Expanded(
                     child: Text(
-                      widget.anime.title,
+                      widget.product.title,
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -56,13 +56,13 @@ class _DetailPageState extends State<DetailPage> {
                   ),
                   IconButton(
                     icon: Icon(
-                      _isFav ? Icons.favorite : Icons.favorite_border,
-                      color: _isFav ? Colors.red : null,
+                      _isCart ? Icons.favorite : Icons.favorite_border,
+                      color: _isCart ? Colors.red : null,
                     ),
                     onPressed: () async {
-                      await favProv.toggleFavorite(widget.anime.malId);
+                      await favProv.toggleCart(widget.product.id);
                       setState(() {
-                        _isFav = !_isFav;
+                        _isCart = !_isCart;
                       });
                     },
                   )
@@ -70,19 +70,15 @@ class _DetailPageState extends State<DetailPage> {
               ),
             ),
             ListTile(
-              title: const Text('Score'),
-              trailing: Text(widget.anime.score.toString()),
-            ),
-            ListTile(
-              title: const Text('Status'),
-              trailing: Text(widget.anime.status),
+              title: const Text('Description'),
+              trailing: Text(widget.product.description),
             ),
             Padding(
               padding: const EdgeInsets.all(14),
               child: Text(
-                widget.anime.synopsis.isEmpty
+                widget.product.category.isEmpty
                     ? 'No synopsis available.'
-                    : widget.anime.synopsis,
+                    : widget.product.category,
               ),
             ),
 

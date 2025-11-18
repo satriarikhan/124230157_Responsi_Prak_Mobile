@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:responsi_apk/pages/home_page.dart';
 import 'package:responsi_apk/pages/register_page.dart';
 import 'package:responsi_apk/providers/auth_provider.dart';
 
